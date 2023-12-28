@@ -1,9 +1,21 @@
 <script lang="ts">
     import type { PageData } from "./$types.js";
     import { generations } from "./generations";
+    import type { IndexMonster } from "./+page"
 
     export let data: PageData;
+
+    let monsterId: number | null = null;
+
+    $: monster = data.monsters.find((monster) => monster.id === monsterId);
+
+    const monsterClickEvent = (monster: IndexMonster) => {
+        monsterId = monster.id;
+    };
 </script>
+
+<h1>{monsterId}</h1>
+<h1>{monster?.name}</h1>
 
 <div class="generations">
     {#each generations as generation (generation.id)}
@@ -13,7 +25,10 @@
 
 <div class="monsters">
     {#each data.monsters as monster (monster.id)}
-        <div class="monster">
+       
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="monster" on:click={() => monsterClickEvent(monster)}>
             <div class="monster-content">
                 <img src={monster.image} alt={monster.name} />
                 {monster.name}
