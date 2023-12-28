@@ -15,7 +15,8 @@ export const load = (async ({ fetch }) => {
         return {
             name: monster.name,
             url: monster.url,
-            id
+            id,
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
         }
     });
 
