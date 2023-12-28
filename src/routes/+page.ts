@@ -20,6 +20,6 @@ export const load = (async ({ fetch }) => {
     });
 
     return {
-        monsters: monsters
+        monsters
     }
 }) satisfies PageLoad
