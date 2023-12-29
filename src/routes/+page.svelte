@@ -8,7 +8,7 @@
 
     export let data: PageData;
 
-    let searchString: string = "";
+    let searchString: string = $page.url.searchParams.get("search") || "";
     $: selectedMonsters = data.monsters.filter((monster) => monster.name.includes(searchString.toLowerCase()));
 
     $: monsterId = $page.url.searchParams.get("monsterId") || "";
@@ -25,10 +25,11 @@
     };
     
     let form = {
-        searchString: ""
+        searchString: $page.url.searchParams.get("search") || ""
     };
     const submitSearch = (e: Event) => {
         searchString = form.searchString;
+        updateSearchParam("search", searchString);
     }
 </script>
 
