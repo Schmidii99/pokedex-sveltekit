@@ -8,6 +8,9 @@
 
     export let data: PageData;
 
+    let searchString: string = "";
+    $: selectedMonsters = data.monsters.filter((monster) => monster.name.includes(searchString.toLowerCase()));
+
     $: monsterId = $page.url.searchParams.get("monsterId") || "";
     $: monster = data.monsters.find((monster) => monster.id == monsterId);
     $: monsterId2 = $page.url.searchParams.get("monsterId2") || "";
@@ -18,6 +21,13 @@
         currentParams.set(key, value);
         goto(`?${currentParams.toString()}`);
     };
+    
+    let form = {
+        searchString: ""
+    };
+    const submitSearch = (e: Event) => {
+        searchString = form.searchString;
+    }
 </script>
 
 {#if monster}
@@ -35,8 +45,13 @@
     {/each}
 </div>
 
+<form class="search-form" on:submit={submitSearch}>
+    <input type="text" bind:value={form.searchString} placeholder="Search for a pokemon..."/>
+    <input type="submit" value="Search">
+</form>
+
 <div class="monsters">
-    {#each data.monsters as loop_monster (loop_monster.id)}
+    {#each selectedMonsters as loop_monster (loop_monster.id)}
         <Monster 
             monster={loop_monster}
             updateSearchParam={updateSearchParam}
@@ -66,6 +81,29 @@
         color: #333;
     }
     .generation:hover {
+        background-color: #ddd;
+    }
+
+    .search-form {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    .search-form input[type="text"] {
+        padding: 5px, 10px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        width: 200px;
+    }
+    .search-form input[type="submit"] {
+        padding: 5px 10px;
+        margin-left: 10px;
+        border: 1px solid #333;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        color: #333
+    }
+    .search-form input[type="submit"]:hover {
         background-color: #ddd;
     }
 </style>
