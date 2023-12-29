@@ -1,21 +1,28 @@
 <script lang="ts">
     import type { PageData } from "./$types.js";
     import { generations } from "./generations";
-    import type { IndexMonster } from "./+page"
+    import type { IndexMonster } from "./+page";
+    import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
 
     export let data: PageData;
 
-    let monsterId: number | null = null;
+    $: monsterId = $page.url.searchParams.get("monsterId") || "";
+    $: monster = data.monsters.find((monster) => monster.id == monsterId);
+    $: monsterId2 = $page.url.searchParams.get("monsterId2") || "";
+    $: monster2 = data.monsters.find((monster) => monster.id == monsterId2);
 
-    $: monster = data.monsters.find((monster) => monster.id === monsterId);
-
-    const monsterClickEvent = (monster: IndexMonster) => {
-        monsterId = monster.id;
+    const updateSearchParam = (key: string, value: string) => {
+        const currentParams: URLSearchParams = new URLSearchParams($page.url.searchParams);
+        currentParams.set(key, value);
+        goto(`?${currentParams.toString()}`);
     };
 </script>
 
 <h1>{monsterId}</h1>
 <h1>{monster?.name}</h1>
+<h1>{monsterId2}</h1>
+<h1>{monster2?.name}</h1>
 
 <div class="generations">
     {#each generations as generation (generation.id)}
@@ -28,13 +35,18 @@
        
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div class="monster" on:click={() => monsterClickEvent(monster)}>
-            <div class="monster-content">
-                <img src={monster.image} alt={monster.name} />
-                {monster.name}
-            </div>
-            <div class="monster-id">
-                {monster.id}
+        <div class="monster">
+            <div on:click={() => updateSearchParam("monsterId", monster.id)}>
+                <div class="monster-content">
+                    <img src={monster.image} alt={monster.name} />
+                    {monster.name}
+                </div>
+                <div class="monster-id">
+                    {monster.id}
+                </div>
+                <div on:click={() => updateSearchParam("monsterId2", monster.id)}>
+                    Add Monster 2
+                </div>
             </div>
         </div>
     {/each}

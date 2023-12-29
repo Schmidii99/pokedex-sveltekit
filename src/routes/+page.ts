@@ -6,7 +6,7 @@ type ApiMonster = {
 }
 
 export type IndexMonster = ApiMonster & {
-    id: number,
+    id: string,
     image: string
 }
 
