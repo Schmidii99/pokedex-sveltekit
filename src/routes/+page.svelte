@@ -11,12 +11,7 @@
     let searchString: string = $page.url.searchParams.get("search") || "";
     $: selectedMonsters = data.monsters.filter((monster) => monster.name.includes(searchString.toLowerCase()));
 
-    $: monsterId = $page.url.searchParams.get("monsterId") || "";
-    $: monster = data.monsters.find((monster) => monster.id == monsterId);
-    $: monsterId2 = $page.url.searchParams.get("monsterId2") || "";
-    $: monster2 = data.monsters.find((monster) => monster.id == monsterId2);
-
-    $: selectedGenerationId = $page.url.searchParams.get("generation_id") || "";
+    $: selectedGenerationId = $page.url.searchParams.get("generation_id") || "all";
 
     const updateSearchParam = (key: string, value: string) => {
         const currentParams: URLSearchParams = new URLSearchParams($page.url.searchParams);
@@ -32,15 +27,6 @@
         updateSearchParam("search", searchString);
     }
 </script>
-
-{#if monster}
-    <Monster monster={monster}
-    updateSearchParam={updateSearchParam}/>
-{/if}
-{#if monster2}
-    <Monster monster={monster2}
-    updateSearchParam={updateSearchParam}/>
-{/if}
 
 <div class="generations">
     <button class="generation"
@@ -66,8 +52,6 @@
     {#each selectedMonsters as loop_monster (loop_monster.id)}
         <Monster 
             monster={loop_monster}
-            updateSearchParam={updateSearchParam}
-            isInteractive={true}
         />
     {/each}
 </div>

@@ -1,6 +1,6 @@
 <script>
     import { page } from "$app/stores";
-
+    import { caughtMonsters } from "$lib/stores";
 </script>
 
 <div class="navbar">
@@ -8,7 +8,7 @@
         Home
     </a>
     <a href="/my-monsters/" class:active={$page.url.pathname == "/my-monsters"}>
-        My Monsters
+        My Monsters ({$caughtMonsters.length})
     </a>
 </div>
 
