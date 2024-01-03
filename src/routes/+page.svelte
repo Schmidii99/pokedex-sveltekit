@@ -52,6 +52,7 @@
     {#each selectedMonsters as loop_monster (loop_monster.id)}
         <Monster 
             monster={loop_monster}
+            catchable={true}
         />
     {/each}
 </div>
