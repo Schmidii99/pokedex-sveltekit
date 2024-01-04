@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types.js";
     import { generations } from "./generations";
-    import type { IndexMonster } from "./+page";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import Monster from "./Monster.svelte";
@@ -12,6 +11,7 @@
     $: selectedMonsters = data.monsters.filter((monster) => monster.name.includes(searchString.toLowerCase()));
 
     $: selectedGenerationId = $page.url.searchParams.get("generation_id") || "all";
+    $: console.log(selectedGenerationId);
 
     const updateSearchParam = (key: string, value: string) => {
         const currentParams: URLSearchParams = new URLSearchParams($page.url.searchParams);

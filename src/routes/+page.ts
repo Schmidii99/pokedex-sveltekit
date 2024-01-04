@@ -11,13 +11,13 @@ export type IndexMonster = ApiMonster & {
 }
 
 export const load = (async ({ fetch, url }) => {    
-    const generationId = url.searchParams.get("generation_id") || "1";
+    const generationId = url.searchParams.get("generation_id") || "all";
 
     let monsterArray: IndexMonster[] = [];
     let json;
 
     if (generationId == 'all') {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20000");
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=10000");
         json = (await response.json()).results;
     }
     else {
